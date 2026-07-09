@@ -1,0 +1,8 @@
+node_modules/
+
+# карты стилей sass, генерируются автоматически
+styles/*.css.map
+
+# системные файлы
+.DS_Store
+Thumbs.db

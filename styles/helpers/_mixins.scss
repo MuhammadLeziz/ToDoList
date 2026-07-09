@@ -1,0 +1,110 @@
+@use 'sass:math';
+
+// 1. Адаптивный шрифт
+@mixin fluid-text($max: 48, $min: 16) {
+  $maxViewportWidth: 1920;
+  $minViewportWidth: 360;
+
+  $maxSize: math.div($max, 16);
+  $minSize: math.div($min, 16);
+  $maxWidth: math.div($maxViewportWidth, 16);
+  $minWidth: math.div($minViewportWidth, 16);
+
+  $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
+  $yAxisIntersection: -$minWidth * $slope + $minSize;
+
+  font-size: clamp(#{$minSize * 1rem},
+    #{$yAxisIntersection * 1rem} + #{$slope * 100vw},
+    #{$maxSize * 1rem});
+}
+
+// $max — размер из desktop макета (в px без единиц)
+// $min — размер из мобильного макета (в px без единиц)
+// Пример: @include fluid-text(48, 24);
+
+// 2. Универсальный fluid для любого свойства
+@mixin fluid($property, $max, $min) {
+  $maxViewportWidth: 1920;
+  $minViewportWidth: 360;
+
+  $maxSize: math.div($max, 16);
+  $minSize: math.div($min, 16);
+  $maxWidth: math.div($maxViewportWidth, 16);
+  $minWidth: math.div($minViewportWidth, 16);
+
+  $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
+  $yAxisIntersection: -$minWidth * $slope + $minSize;
+
+  #{$property}: clamp(#{$minSize * 1rem},
+    #{$yAxisIntersection * 1rem} + #{$slope * 100vw},
+    #{$maxSize * 1rem});
+}
+
+// Пример:
+// @include fluid(padding-top, 80, 40);
+// @include fluid(column-gap, 48, 20);
+
+@mixin hide {
+
+  opacity: 0;
+
+  visibility: hidden;
+
+}
+
+
+
+@mixin show {
+
+  opacity: 1;
+
+  visibility: visible;
+
+}
+
+// 5. Центрирование через flex
+@mixin flex-center($isInline: false) {
+  @if $isInline {
+    display: inline-flex; // по размеру контента (как inline)
+  }
+
+  @else {
+    display: flex; // на всю ширину (как block)
+  }
+
+  justify-content: center;
+  align-items: center;
+}
+
+// @include flex-center;        → display: flex
+// @include flex-center(true);  → display: inline-flex
+
+// 6. Абсолютное центрирование (родитель должен иметь position: relative)
+@mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+// 7. Квадратный элемент
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+// @include square(rem(48)); → 48x48px
+
+// 8. Visually hidden (скрыт визуально, но доступен скринридерам)
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}

@@ -1,0 +1,321 @@
+@use '../helpers/' as *;
+
+body {
+  position: relative;
+}
+
+.theme-btn {
+  position: absolute;
+  top: rem(32);
+  right: rem(32);
+  border: var(--border-btn);
+  border-radius: rem(8);
+  padding: rem(12);
+  background: var(--color-light-dark);
+
+  font-weight: 400;
+  font-size: rem(16);
+  line-height: 1;
+  color: var(--color-white-alt);
+
+  transition: var(--transition);
+}
+
+.theme-btn:hover {
+  background: var(--color-light-grey);
+  color: var(--color-dark-alt);
+  border: var(--border-checkbox);
+}
+
+.todo-app {
+  border: var(--border-input);
+  border-radius: rem(8);
+  padding: rem(24);
+  box-shadow: var(--box-shadow);
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(24);
+  width: rem(400);
+
+  & h1 {
+    font-weight: 600;
+    font-size: rem(24);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--color-dark);
+    @include flex-center;
+  }
+
+  .add-form {
+    display: flex;
+    justify-content: space-between;
+    column-gap: rem(16);
+
+    .new-task-input {
+      border: var(--border-input);
+      border-radius: rem(8);
+      padding-block: rem(12);
+      padding-left: rem(16);
+      padding-right: rem(22);
+      width: 100%;
+    }
+
+    .new-task-input::placeholder {
+      font-weight: 400;
+      font-size: rem(16);
+      line-height: 1;
+      color: var(--color-grey);
+    }
+
+    button {
+      border: var(--border-btn);
+      border-radius: rem(8);
+      padding: rem(12);
+      background: var(--color-light-dark);
+
+      font-weight: 400;
+      font-size: rem(16);
+      line-height: 1;
+      color: var(--color-white-alt);
+
+      transition: var(--transition);
+    }
+
+    button:hover {
+      background: var(--color-light-grey);
+      color: var(--color-dark-alt);
+      border: var(--border-checkbox);
+    }
+  }
+
+  .search-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    .search-input {
+      border: var(--border-input);
+      border-radius: rem(8);
+      padding-block: rem(12);
+      padding-left: rem(16);
+      padding-right: rem(42);
+      width: 100%;
+
+    }
+
+    svg {
+      position: absolute;
+      right: rem(16);
+    }
+
+
+  }
+
+
+
+  .search-input::placeholder {
+    font-weight: 400;
+    font-size: rem(16);
+    line-height: 1;
+    color: var(--color-grey);
+  }
+
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: rem(16);
+    line-height: 1.4;
+    color: var(--color-dark);
+
+    .delete-all {
+      border: none;
+      background-color: var(--color-white);
+    }
+
+
+  }
+
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(8);
+    overflow: hidden;
+
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+      transform: translateX(100%);
+
+
+      border: var(--border-input);
+      border-radius: rem(8);
+      padding-block: rem(12);
+      padding-inline: rem(10);
+
+      .delete-btn {
+        @include flex-center;
+        border: none;
+        background-color: var(--color-white);
+
+        svg path {
+          stroke-width: rem(2);
+          stroke: var(--color-light-grey);
+        }
+      }
+
+      .checkbox-wrapper {
+        display: flex;
+        column-gap: rem(12);
+        align-items: center;
+
+        .task-text {
+          font-weight: 400;
+          font-size: rem(16);
+          color: var(--color-dark-alt);
+        }
+
+        .task-text.is-done {
+          text-decoration: line-through;
+          color: var(--color-light-grey);
+        }
+
+        .checkbox {
+          display: inline-flex;
+          align-items: center;
+          cursor: pointer;
+          position: relative;
+        }
+
+        .checkbox__input {
+          // прячем, но не display:none — иначе теряется доступность/фокус
+          position: absolute;
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .checkbox__box {
+          @include square(rem(20));
+          border: var(--border-checkbox);
+          border-radius: rem(4);
+          background: #fff;
+          @include flex-center(true);
+          transition: var(--transition);
+
+          &::after {
+            content: '';
+            @include square(rem(12));
+            background-image: url('../../icons/Check.svg'); // белая галочка на прозрачном фоне
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0;
+            transition: opacity 0.15s;
+          }
+        }
+
+        // когда input checked — красим box и показываем галочку
+        .checkbox__input:checked+.checkbox__box {
+          background: var(--color-light-dark); // тёмный фон как на скрине
+          border-color: var(--color-light-dark);
+
+          &::after {
+            opacity: 1;
+          }
+        }
+
+        // бонус: видимый фокус для доступности (обязательно, раз убрали нативный outline)
+        .checkbox__input:focus-visible+.checkbox__box {
+          outline: #{rem(1)} dashed var(--color-light-dark);
+          outline-offset: #{rem(2)};
+        }
+      }
+    }
+
+    .task-item.is-active {
+      transform: translateX(0);
+
+    }
+  }
+}
+
+
+.dark-theme {
+  background-color: var(--color-dark-alt);
+
+  .theme-btn {
+    background-color: var(--color-white-alt);
+    color: var(--color-dark-alt);
+  }
+
+  .theme-btn:hover {
+    background-color: var(--color-light-grey);
+    border: var(--border-checkbox);
+  }
+
+  .todo-app {
+    background-color: var(--color-dark-alt);
+
+    & h1 {
+      color: var(--color-white-alt);
+    }
+
+    .add-form {
+
+      & button {
+        background-color: var(--color-white-alt);
+        color: var(--color-dark-alt);
+      }
+
+      & button:hover {
+        background-color: var(--color-light-grey);
+        border: var(--border-checkbox);
+      }
+    }
+
+    .list-header {
+
+      .total-tasks {
+        color: var(--color-white-alt);
+      }
+
+      .delete-all {
+        color: var(--color-white-alt);
+        background-color: var(--color-dark-alt);
+      }
+    }
+
+    .task-list {
+
+      .task-item {
+        .checkbox-wrapper {
+          .task-text {
+            color: var(--color-white-alt);
+          }
+
+          .task-text.is-done {
+            color: var(--color-light-grey);
+          }
+        }
+
+        .delete-btn {
+          background-color: var(--color-dark-alt);
+
+          svg path {
+            stroke: var(--color-white-alt);
+          }
+        }
+
+
+      }
+
+    }
+  }
+}

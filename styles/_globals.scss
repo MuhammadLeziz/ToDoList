@@ -1,0 +1,32 @@
+@use 'helpers' as *;
+
+body {
+  font-family: var(--font-family);
+  width: 100vw;
+  @include flex-center;
+  background: var(--color-white-alt);
+}
+
+// Плавные переходы
+a,
+button,
+input,
+textarea,
+svg * {
+  transition: var(--transition);
+}
+
+// Сброс ссылок
+a {
+  color: inherit; // наследует цвет от родителя
+
+  @include hover {
+    color: var(--color-green); // меняем цвет при наведении
+  }
+}
+
+:focus-visible {
+  outline: #{rem(1)} dashed var(--color-light-dark);
+  outline-offset: #{rem(2)};
+  transition-duration: 0s !important; // отключаем анимацию для outline
+}

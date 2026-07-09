@@ -1,0 +1,545 @@
+@charset "UTF-8";
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Убирает серую подсветку при тапе на мобильных устройствах (iOS/Android)
+ */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none], [fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none], [stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter_24pt-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter_24pt-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --font-family: "Inter", sans-serif;
+  --color-dark: #000;
+  --color-dark-alt: #1e1e1e;
+  --color-white: #fff;
+  --color-white-alt: #f5f5f5;
+  --color-grey: #b3b3b3;
+  --color-light-grey: #757575;
+  --color-light-dark: #2c2c2c;
+  --border-checkbox: 0.0625rem solid #757575;
+  --border-input: 0.0625rem solid #d9d9d9;
+  --border-btn: 0.0625rem solid #2c2c2c;
+  --box-shadow: 0 0.25rem 0.25rem -0.25rem rgba(12, 12, 13, 0.05),
+  0 16px 32px -4px rgba(12, 12, 13, 0.1);
+  --transition: all 200ms linear;
+}
+
+.container {
+  max-width: calc(var(--container-width) + var(--container-padding-inline) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@media (width <= 47.99875rem) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (width > 47.99875rem) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
+body {
+  font-family: var(--font-family);
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-white-alt);
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+  transition: var(--transition);
+}
+
+a {
+  color: inherit;
+}
+@media (any-hover: hover) {
+  a:hover {
+    color: var(--color-green);
+  }
+}
+@media (any-hover: none) {
+  a:active {
+    color: var(--color-green);
+  }
+}
+
+:focus-visible {
+  outline: 0.0625rem dashed var(--color-light-dark);
+  outline-offset: 0.125rem;
+  transition-duration: 0s !important;
+}
+
+body {
+  position: relative;
+}
+
+.theme-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  border: var(--border-btn);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-light-dark);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-white-alt);
+  transition: var(--transition);
+}
+
+.theme-btn:hover {
+  background: var(--color-light-grey);
+  color: var(--color-dark-alt);
+  border: var(--border-checkbox);
+}
+
+.todo-app {
+  border: var(--border-input);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  width: 25rem;
+}
+.todo-app h1 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo-app .add-form {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 1rem;
+}
+.todo-app .add-form .new-task-input {
+  border: var(--border-input);
+  border-radius: 0.5rem;
+  padding-block: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1.375rem;
+  width: 100%;
+}
+.todo-app .add-form .new-task-input::placeholder {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-grey);
+}
+.todo-app .add-form button {
+  border: var(--border-btn);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-light-dark);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-white-alt);
+  transition: var(--transition);
+}
+.todo-app .add-form button:hover {
+  background: var(--color-light-grey);
+  color: var(--color-dark-alt);
+  border: var(--border-checkbox);
+}
+.todo-app .search-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.todo-app .search-wrapper .search-input {
+  border: var(--border-input);
+  border-radius: 0.5rem;
+  padding-block: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 2.625rem;
+  width: 100%;
+}
+.todo-app .search-wrapper svg {
+  position: absolute;
+  right: 1rem;
+}
+.todo-app .search-input::placeholder {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-grey);
+}
+.todo-app .list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--color-dark);
+}
+.todo-app .list-header .delete-all {
+  border: none;
+  background-color: var(--color-white);
+}
+.todo-app .task-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  overflow: hidden;
+}
+.todo-app .task-list .task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+  transform: translateX(100%);
+  border: var(--border-input);
+  border-radius: 0.5rem;
+  padding-block: 0.75rem;
+  padding-inline: 0.625rem;
+}
+.todo-app .task-list .task-item .delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: var(--color-white);
+}
+.todo-app .task-list .task-item .delete-btn svg path {
+  stroke-width: 0.125rem;
+  stroke: var(--color-light-grey);
+}
+.todo-app .task-list .task-item .checkbox-wrapper {
+  display: flex;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+.todo-app .task-list .task-item .checkbox-wrapper .task-text {
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--color-dark-alt);
+}
+.todo-app .task-list .task-item .checkbox-wrapper .task-text.is-done {
+  text-decoration: line-through;
+  color: var(--color-light-grey);
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__box {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: var(--border-checkbox);
+  border-radius: 0.25rem;
+  background: #fff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__box::after {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  background-image: url("../../icons/Check.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__input:checked + .checkbox__box {
+  background: var(--color-light-dark);
+  border-color: var(--color-light-dark);
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__input:checked + .checkbox__box::after {
+  opacity: 1;
+}
+.todo-app .task-list .task-item .checkbox-wrapper .checkbox__input:focus-visible + .checkbox__box {
+  outline: 0.0625rem dashed var(--color-light-dark);
+  outline-offset: 0.125rem;
+}
+.todo-app .task-list .task-item.is-active {
+  transform: translateX(0);
+}
+
+.dark-theme {
+  background-color: var(--color-dark-alt);
+}
+.dark-theme .theme-btn {
+  background-color: var(--color-white-alt);
+  color: var(--color-dark-alt);
+}
+.dark-theme .theme-btn:hover {
+  background-color: var(--color-light-grey);
+  border: var(--border-checkbox);
+}
+.dark-theme .todo-app {
+  background-color: var(--color-dark-alt);
+}
+.dark-theme .todo-app h1 {
+  color: var(--color-white-alt);
+}
+.dark-theme .todo-app .add-form button {
+  background-color: var(--color-white-alt);
+  color: var(--color-dark-alt);
+}
+.dark-theme .todo-app .add-form button:hover {
+  background-color: var(--color-light-grey);
+  border: var(--border-checkbox);
+}
+.dark-theme .todo-app .list-header .total-tasks {
+  color: var(--color-white-alt);
+}
+.dark-theme .todo-app .list-header .delete-all {
+  color: var(--color-white-alt);
+  background-color: var(--color-dark-alt);
+}
+.dark-theme .todo-app .task-list .task-item .checkbox-wrapper .task-text {
+  color: var(--color-white-alt);
+}
+.dark-theme .todo-app .task-list .task-item .checkbox-wrapper .task-text.is-done {
+  color: var(--color-light-grey);
+}
+.dark-theme .todo-app .task-list .task-item .delete-btn {
+  background-color: var(--color-dark-alt);
+}
+.dark-theme .todo-app .task-list .task-item .delete-btn svg path {
+  stroke: var(--color-white-alt);
+}
+
+/*# sourceMappingURL=main.css.map */

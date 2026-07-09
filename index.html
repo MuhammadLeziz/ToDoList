@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Do List</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="scripts/main.js" defer type="module"></script>
+</head>
+
+<body>
+  <button class="theme-btn">Переключить тему</button>
+  <div class="todo-app" data-js-todo-app>
+    <h1>To Do List</h1>
+
+    <form class="add-form" data-js-todo-form>
+      <input type="text" class="new-task-input" placeholder="New task title" data-js-todo-input>
+      <button type="submit" data-js-add-input>Add</button>
+    </form>
+
+    <div class="search-wrapper">
+      <input type="text" class="search-input" placeholder="Search task" data-js-todo-search>
+      <svg aria-label="Search" width="16" height="16" viewBox="0 0 16 16" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M14 14L11.1 11.1M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z"
+          stroke="#1E1E1E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+
+    <div class="list-header">
+      <span class="total-tasks">Total Tasks: <span id="count" data-js-todo-count>0</span></span>
+      <button class="delete-all" data-js-todo-delete-all>Delete All</button>
+    </div>
+
+    <ul class="task-list" data-js-todo-list>
+      <!-- <li class="task-item is-active" data-id="1" data-js-task-item>
+        <div class="checkbox-wrapper">
+          <label class="checkbox">
+            <input type="checkbox" class="checkbox__input" data-js-todo-checkbox>
+            <span class="checkbox__box"></span>
+          </label>
+          <span class="task-text" data-js-todo-text>Task 1</span>
+        </div>
+        <button class="delete-btn" aria-label="delete btn" data-js-todo-delete>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="#757575" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </li> -->
+
+    </ul>
+  </div>
+</body>
+
+</html>
